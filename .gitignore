@@ -1,0 +1,4 @@
+.playwright-mcp/
+.claude-flow/
+.remember/
+.obsidian/workspace*.json

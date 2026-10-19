@@ -1,0 +1,696 @@
+{
+ "nodes": [
+  {
+   "id": "gen-title",
+   "type": "text",
+   "x": 0,
+   "y": -2270,
+   "width": 1200,
+   "height": 180,
+   "color": "6",
+   "text": "# Диференциално и интегрално смятане\nЛекциите са хронологично отляво надясно. Над всяка лекция са решените примери от нея, а под нея са основите, които са нужни."
+  },
+  {
+   "id": "gen-g00",
+   "type": "group",
+   "x": 0,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "00 Въведение"
+  },
+  {
+   "id": "gen-L00",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/00-Въведение.md",
+   "x": 20,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S00",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Записки от упражненията на втора група/Tema 00.pdf",
+   "x": 660,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-B0",
+   "type": "file",
+   "file": "Основи/Множества и символи.md",
+   "x": 0,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-B1",
+   "type": "file",
+   "file": "Основи/Знак за сума и произведение.md",
+   "x": 620,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-B2",
+   "type": "file",
+   "file": "Основи/Координатна равнина.md",
+   "x": 0,
+   "y": 1660,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-B3",
+   "type": "file",
+   "file": "Основи/Модул (абсолютна стойност).md",
+   "x": 620,
+   "y": 1660,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-g01",
+   "type": "group",
+   "x": 1400,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "01 Индукция"
+  },
+  {
+   "id": "gen-L01",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/01-Индукция.md",
+   "x": 1420,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S01",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Записки от упражненията на втора група/Tema01.pdf",
+   "x": 2060,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-X01-0",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/01-01-Индукция-сума-от-кубове.md",
+   "x": 1400,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X01-1",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/01-02-Индукция-хармонична-сума.md",
+   "x": 1810,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X01-2",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/01-03-Индукция-телескопична-сума.md",
+   "x": 2220,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X01-3",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/01-04-Индукция-сума-i-по-2-на-i.md",
+   "x": 1400,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X01-4",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/01-05-Индукция-2n-плюс-1-под-n-квадрат.md",
+   "x": 1810,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X01-5",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/01-06-Индукция-6-дели-7-на-n-минус-1.md",
+   "x": 2220,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-B4",
+   "type": "file",
+   "file": "Основи/Съкратено умножение и изнасяне пред скоби.md",
+   "x": 1400,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-B5",
+   "type": "file",
+   "file": "Основи/Делимост и остатъци.md",
+   "x": 2020,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-g02",
+   "type": "group",
+   "x": 2800,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "02 Нютонов бином"
+  },
+  {
+   "id": "gen-L02",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/02-Нютонов-бином.md",
+   "x": 2820,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S02",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Записки от упражненията на втора група/Tema02.pdf",
+   "x": 3460,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-X02-0",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-01-Бином-правило-на-Паскал.md",
+   "x": 2800,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-1",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-02-Бином-формула-с-факториели.md",
+   "x": 3210,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-2",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-03-Бином-коефициент-нула-при-k-над-n.md",
+   "x": 3620,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-3",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-04-Бином-сума-на-коефициентите.md",
+   "x": 2800,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-4",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-05-Бином-алтернираща-сума.md",
+   "x": 3210,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-5",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-06-Бином-сума-на-квадратите.md",
+   "x": 3620,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-6",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-07-Бином-Hockey-Stick-индукция.md",
+   "x": 2800,
+   "y": -1520,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-7",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-08-Бином-Паскал-комбинаторно.md",
+   "x": 3210,
+   "y": -1520,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-8",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-09-Бином-2-на-n-комбинаторно.md",
+   "x": 3620,
+   "y": -1520,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-9",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-10-Бином-алтернираща-сума-комбинаторно.md",
+   "x": 2800,
+   "y": -2010,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-10",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-11-Бином-сума-на-квадратите-комбинаторно.md",
+   "x": 3210,
+   "y": -2010,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X02-11",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/02-12-Бином-Hockey-Stick-комбинаторно.md",
+   "x": 3620,
+   "y": -2010,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-B6",
+   "type": "file",
+   "file": "Основи/Факториел.md",
+   "x": 2800,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-g03",
+   "type": "group",
+   "x": 4200,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "03 Обратни тригонометрични функции"
+  },
+  {
+   "id": "gen-L03",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/03-Обратни-тригонометрични-функции.md",
+   "x": 4220,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S03",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Обратни тригонометрични функции/ДИС1-20-21 04-1 Основни елементарни функции НФ част 4.pdf",
+   "x": 4860,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-X03-0",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/03-01-Обратни-триг-arctg2-плюс-arctg3.md",
+   "x": 4200,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X03-1",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/03-02-Обратни-триг-сума-на-arctg.md",
+   "x": 4610,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-B7",
+   "type": "file",
+   "file": "Основи/Тригонометрия (единична окръжност и формули).md",
+   "x": 4200,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-B8",
+   "type": "file",
+   "file": "Основи/Обратна функция.md",
+   "x": 4820,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-konspekt",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/Конспект.md",
+   "x": -900,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "6"
+  }
+ ],
+ "edges": [
+  {
+   "id": "gen-e-gen-L00-gen-B0",
+   "fromNode": "gen-L00",
+   "fromSide": "bottom",
+   "toNode": "gen-B0",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L00-gen-B1",
+   "fromNode": "gen-L00",
+   "fromSide": "bottom",
+   "toNode": "gen-B1",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L00-gen-B2",
+   "fromNode": "gen-L00",
+   "fromSide": "bottom",
+   "toNode": "gen-B2",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L00-gen-B3",
+   "fromNode": "gen-L00",
+   "fromSide": "bottom",
+   "toNode": "gen-B3",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L00-gen-L01",
+   "fromNode": "gen-L00",
+   "fromSide": "right",
+   "toNode": "gen-L01",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-X01-0",
+   "fromNode": "gen-L01",
+   "fromSide": "top",
+   "toNode": "gen-X01-0",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-X01-1",
+   "fromNode": "gen-L01",
+   "fromSide": "top",
+   "toNode": "gen-X01-1",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-X01-2",
+   "fromNode": "gen-L01",
+   "fromSide": "top",
+   "toNode": "gen-X01-2",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-X01-3",
+   "fromNode": "gen-L01",
+   "fromSide": "top",
+   "toNode": "gen-X01-3",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-X01-4",
+   "fromNode": "gen-L01",
+   "fromSide": "top",
+   "toNode": "gen-X01-4",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-X01-5",
+   "fromNode": "gen-L01",
+   "fromSide": "top",
+   "toNode": "gen-X01-5",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-B1",
+   "fromNode": "gen-L01",
+   "fromSide": "bottom",
+   "toNode": "gen-B1",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-B3",
+   "fromNode": "gen-L01",
+   "fromSide": "bottom",
+   "toNode": "gen-B3",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-B4",
+   "fromNode": "gen-L01",
+   "fromSide": "bottom",
+   "toNode": "gen-B4",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-B5",
+   "fromNode": "gen-L01",
+   "fromSide": "bottom",
+   "toNode": "gen-B5",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-L02",
+   "fromNode": "gen-L01",
+   "fromSide": "right",
+   "toNode": "gen-L02",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-0",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-0",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-1",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-1",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-2",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-2",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-3",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-3",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-4",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-4",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-5",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-5",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-6",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-6",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-7",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-7",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-8",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-8",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-9",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-9",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-10",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-10",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-X02-11",
+   "fromNode": "gen-L02",
+   "fromSide": "top",
+   "toNode": "gen-X02-11",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-B6",
+   "fromNode": "gen-L02",
+   "fromSide": "bottom",
+   "toNode": "gen-B6",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-B1",
+   "fromNode": "gen-L02",
+   "fromSide": "bottom",
+   "toNode": "gen-B1",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-B0",
+   "fromNode": "gen-L02",
+   "fromSide": "bottom",
+   "toNode": "gen-B0",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L02-gen-L03",
+   "fromNode": "gen-L02",
+   "fromSide": "right",
+   "toNode": "gen-L03",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L03-gen-X03-0",
+   "fromNode": "gen-L03",
+   "fromSide": "top",
+   "toNode": "gen-X03-0",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L03-gen-X03-1",
+   "fromNode": "gen-L03",
+   "fromSide": "top",
+   "toNode": "gen-X03-1",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L03-gen-B7",
+   "fromNode": "gen-L03",
+   "fromSide": "bottom",
+   "toNode": "gen-B7",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L03-gen-B8",
+   "fromNode": "gen-L03",
+   "fromSide": "bottom",
+   "toNode": "gen-B8",
+   "toSide": "top",
+   "label": "нужно ти е"
+  }
+ ]
+}
