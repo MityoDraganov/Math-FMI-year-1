@@ -7,7 +7,6 @@ configuration:
   baseUrl: mityodraganov.github.io/Math-FMI-year-1
   ignorePatterns:
     - "**/материали"
-    - "**/*.canvas" # the boards crash iOS Safari (too heavy); the list version is published instead
     - .obsidian
     - .remember
     - .claude-flow
@@ -140,7 +139,7 @@ plugins:
       position: left
       priority: 50
   - source: "@quartz-community/graph"
-    enabled: false # WebGL, too heavy for phones
+    enabled: true
     layout:
       position: right
       priority: 10
