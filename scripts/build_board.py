@@ -5,7 +5,8 @@
 Ред: решените примери (задачи/NN-KK-*.md) са над лекцията, лекцията (лекции/NN-*.md) е в група
 заедно с първия източник от реда `Източници:`, а основите ([[линкове]] към Основи/ или към
 лекции от други предмети) са отдолу. Възлите, които потребителят сам е добавил (id без префикс
-"gen-"), се запазват, както и стрелките между тях.
+"gen-"), се запазват, както и стрелките между тях. Пише и <предмет>/Табло (списък).md: същото като
+списък, за телефон.
 """
 import glob, json, os, re, sys
 
@@ -38,6 +39,9 @@ def source(path):
 
 lectures = sorted(p for p in glob.glob(f"{subj}/лекции/[0-9]*.md"))
 nodes, edges, placed = [], [], {}
+lst = [f"# Табло: {subj}", "", f"Визуалното табло: [[{out}|Табло.canvas]]", ""]
+nm = lambda p: os.path.splitext(os.path.basename(p))[0]
+wl = lambda p: f"[[{p[:-3]}|{nm(p) if ' ' in nm(p) else nm(p).replace('-', ' ')}]]"
 fnode = lambda i, f, x, y, w, h, c=None: {"id": i, "type": "file", "file": f, "x": x, "y": y, "width": w, "height": h, **({"color": c} if c else {})}
 edge = lambda a, b, fs, ts, l=None: {"id": f"gen-e-{a}-{b}", "fromNode": a, "fromSide": fs, "toNode": b, "toSide": ts, **({"label": l} if l else {})}
 EX_W, EX_H, EX_GAP, PER_ROW = 380, 460, 30, 3
@@ -64,7 +68,12 @@ for i, lec in enumerate(lectures):
         nid = f"gen-X{num}-{k}"
         nodes.append(fnode(nid, ex, x + c * (EX_W + EX_GAP), y, EX_W, EX_H, "3"))
         edges.append(edge(f"gen-L{num}", nid, "top", "bottom"))
-    for b in prereqs([lec] + exs):
+    lst += [f"## {title}", f"- Лекция: {wl(lec)}"]
+    lst += ["- Примери:"] + [f"    - {wl(e)}" for e in exs] if exs else []
+    pre = prereqs([lec] + exs)
+    lst += ["- Основи:"] + [f"    - {wl(b)}" for b in pre] if pre else []
+    lst += [""]
+    for b in pre:
         if b in placed:
             edges.append(edge(f"gen-L{num}", placed[b], "bottom", "top", "нужно ти е"))
             continue
@@ -92,4 +101,5 @@ if os.path.isfile(out):
 missing = [n["file"] for n in nodes if n["type"] == "file" and not os.path.exists(n["file"])]
 assert not missing, missing
 json.dump({"nodes": nodes, "edges": edges}, open(out, "w"), ensure_ascii=False, indent=1)
+open(f"{subj}/Табло (списък).md", "w").write("\n".join(lst))
 print(f"{out}: {len(lectures)} лекции, {sum(n['id'].startswith('gen-X') for n in nodes)} примера, {len(placed)} основи")
