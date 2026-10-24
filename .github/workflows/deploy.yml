@@ -36,6 +36,9 @@ jobs:
         run: |
           npm ci
           npx quartz plugin install --from-config
+          # render boards and math the way Obsidian does (see the scripts for details)
+          node ../vault/.github/quartz-obsidian.mjs
+          python3 ../vault/.github/obsidian-math.py ../vault
           npx quartz build -d ../vault -o ../public
       - uses: actions/upload-pages-artifact@v3
         with:

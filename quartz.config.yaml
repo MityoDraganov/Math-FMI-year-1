@@ -87,13 +87,13 @@ plugins:
   - source: "@quartz-community/latex"
     enabled: true
     options:
-      renderEngine: katex
+      renderEngine: mathjax
     order: 80
   - source: "@quartz-community/citations"
     enabled: false
     order: 85
   - source: "@quartz-community/hard-line-breaks"
-    enabled: false
+    enabled: true # Obsidian's default (strict line breaks off)
     order: 90
   - source: "@quartz-community/ox-hugo"
     enabled: false
@@ -127,6 +127,9 @@ plugins:
     enabled: true
   - source: "@quartz-community/canvas-page"
     enabled: true
+    options:
+      minZoom: 0.0625 # Obsidian: 2^-4 … 2^1
+      maxZoom: 2
   - source: "@quartz-community/content-page"
     enabled: true
   - source: "@quartz-community/folder-page"

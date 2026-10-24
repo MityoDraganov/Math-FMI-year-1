@@ -1,14 +1,561 @@
 @use "./variables.scss" as *;
 
-// Phones: each scrollable board box becomes its own GPU layer inside the zoomed board,
-// which runs iOS Safari out of memory and makes it reload the page on every swipe.
-@media (pointer: coarse) {
-  .canvas-node {
-    box-shadow: none;
-    transition: none;
-    content-visibility: auto;
+// Boards (Табло.canvas) styled like Obsidian's canvas. Values are Obsidian 1.14's own (app.css and
+// the computed theme variables); the structure comes from .github/quartz-obsidian.mjs.
+
+:root[saved-theme="dark"] .canvas-container {
+  --obs-bg: #1c1c1c;
+  --obs-text: #dadada;
+  --obs-muted: #b3b3b3;
+  --obs-faint: #666666;
+  --obs-dot: #333333;
+  --obs-border: #333333;
+  --obs-link: hsl(255, 89.76%, 75.9%);
+  --obs-canvas-color: #7e7e7e;
+  --canvas-color-1: #fb464c;
+  --canvas-color-2: #e9973f;
+  --canvas-color-3: #e0de71;
+  --canvas-color-4: #44cf6e;
+  --canvas-color-5: #53dfdd;
+  --canvas-color-6: #a882ff;
+  --obs-checkbox: hsl(258, 88%, 66%);
+  --obs-checkbox-border: #666666;
+  --obs-guide: color-mix(in oklch, white 12%, transparent);
+  --obs-control-group: #333333;
+  --obs-shadow: 0px 0.5px 1px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+:root[saved-theme="light"] .canvas-container {
+  --obs-bg: #ffffff;
+  --obs-text: #222222;
+  --obs-muted: #5c5c5c;
+  --obs-faint: #ababab;
+  --obs-dot: #e4e4e4;
+  --obs-border: #e4e4e4;
+  --obs-link: hsl(258, 88%, 66%);
+  --obs-canvas-color: #c0c0c0;
+  --canvas-color-1: #e93147;
+  --canvas-color-2: #ec7500;
+  --canvas-color-3: #e0ac00;
+  --canvas-color-4: #08b94e;
+  --canvas-color-5: #00bfbc;
+  --canvas-color-6: #7852ee;
+  --obs-checkbox: hsl(257, 88.88%, 70.95%);
+  --obs-checkbox-border: #ababab;
+  --obs-guide: color-mix(in oklch, black 12%, transparent);
+  --obs-control-group: #e4e4e4;
+  --obs-shadow: 0px 0.5px 1px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+.canvas-container {
+  --zoom-multiplier: 1;
+
+  // Obsidian: * { box-sizing: border-box }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
+
+  --obs-font: ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Google Sans Flex", Roboto,
+    "Inter Variable", Inter, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  background-color: var(--obs-bg);
+  background-image: radial-gradient(circle at 0.7px 0.7px, var(--obs-dot) 0.7px, transparent 0.75px);
+  font-family: var(--obs-font);
+  text-rendering: optimizeLegibility;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--obs-text);
+
+  .canvas-node {
+    --canvas-color: var(--canvas-node-color, var(--obs-canvas-color));
+    box-sizing: border-box;
+    border: 1px solid var(--canvas-color);
+    border-radius: 8px;
+    background: var(--obs-bg);
+    box-shadow: var(--obs-shadow);
+    transition: none;
+    overflow: visible;
+
+    &:hover {
+      box-shadow: var(--obs-shadow);
+    }
+
+    &[style*="--canvas-node-color"] {
+      border-color: color-mix(in oklch, var(--canvas-color) 70%, transparent);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklch, var(--canvas-color) 70%, transparent),
+        var(--obs-shadow);
+
+      > .canvas-node-content {
+        background-color: color-mix(in oklch, var(--canvas-color) 7%, transparent);
+      }
+    }
+  }
+
   .canvas-node-content {
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--obs-text);
     overflow: hidden;
+    border-radius: 7px;
+    white-space: normal;
+  }
+
+  // Note label above a box (file name), as Obsidian's .canvas-node-label.
+  .canvas-node-file .canvas-file-label {
+    position: absolute;
+    bottom: auto;
+    right: auto;
+    left: 0;
+    top: calc(-4px * var(--zoom-multiplier));
+    transform: translate(0, -100%) scale(var(--zoom-multiplier));
+    transform-origin: bottom left;
+    max-width: calc(100% / var(--zoom-multiplier));
+    padding: 0;
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.3;
+
+    a {
+      color: var(--obs-faint);
+      text-decoration: none;
+      display: inline;
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      font-weight: 400;
+
+      &::before {
+        display: none;
+      }
+
+      &:hover {
+        color: var(--obs-muted);
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.mod-zoomed-out .canvas-node-file .canvas-file-label {
+    display: none;
+  }
+
+  // Embedded note, as Obsidian's .markdown-embed > .markdown-preview-view.
+  .canvas-embed-content,
+  .canvas-node-text .canvas-node-content > * {
+    padding: 0 16px;
+  }
+
+  .canvas-embed-content::before,
+  .canvas-node-text .canvas-node-content::before {
+    content: "";
+    display: block;
+    height: 16px;
+  }
+
+  .canvas-node-text .canvas-node-content > *::before {
+    content: none;
+  }
+
+  .canvas-embed-content,
+  .canvas-node-text .canvas-node-content {
+    // Quartz's page typography (line-height 1.6rem, gray text) must not leak into boxes.
+    :where(p, li, ul, ol, td, th, tr, a, strong, em, b, i, span, blockquote, div, .math) {
+      line-height: inherit;
+      color: inherit;
+      font-size: inherit;
+      text-wrap: wrap;
+      overflow-wrap: normal;
+    }
+
+    .inline-title {
+      letter-spacing: -0.015em;
+      font-size: 1.618em;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 0.5em;
+      color: var(--obs-text);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      letter-spacing: 0em;
+      font-family: var(--obs-font);
+      color: var(--obs-text);
+      margin: 16px 0;
+    }
+
+    h1 {
+      letter-spacing: -0.015em;
+      font-size: 1.618em;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    h2 {
+      letter-spacing: -0.011em;
+      font-size: 1.462em;
+      font-weight: 680;
+      line-height: 1.2;
+    }
+    h3 {
+      letter-spacing: -0.008em;
+      font-size: 1.318em;
+      font-weight: 660;
+      line-height: 1.3;
+    }
+    h4 {
+      letter-spacing: -0.005em;
+      font-size: 1.188em;
+      font-weight: 640;
+      line-height: 1.4;
+    }
+    h5 {
+      letter-spacing: -0.002em;
+      font-size: 1.076em;
+      font-weight: 620;
+      line-height: 1.5;
+    }
+    h6 {
+      font-size: 1em;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    > div > h1:first-child,
+    > h1:first-child {
+      margin-top: 0;
+    }
+
+    :is(p, pre, table, ul, ol, blockquote) + :is(h1, h2, h3, h4, h5, h6) {
+      margin-top: 40px;
+    }
+
+    a[role="anchor"] {
+      display: none;
+    }
+
+    p {
+      margin: 16px 0;
+    }
+
+    strong,
+    b {
+      font-weight: 600;
+      color: inherit;
+    }
+
+    a,
+    a.internal {
+      color: var(--obs-link);
+      text-decoration: underline;
+      text-decoration-color: var(--obs-link);
+      background: none;
+      padding: 0;
+      font-weight: 400;
+      border-radius: 0;
+    }
+
+    // Lists, as Obsidian's .markdown-rendered lists (bullets drawn like its .list-bullet).
+    ul,
+    ol {
+      margin: 16px 0;
+      padding: 0;
+    }
+
+    ul ul,
+    ul ol,
+    ol ul,
+    ol ol {
+      margin: 0;
+    }
+
+    ul > li,
+    ol > li {
+      margin: 0 0 0 3ch;
+      padding: 0.075em 0;
+      position: relative;
+    }
+
+    ul ul > li,
+    ol ol > li {
+      margin-left: 2.25em;
+    }
+
+    li p:first-of-type {
+      margin-top: 0;
+    }
+
+    li p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    ul > li {
+      list-style: none;
+    }
+
+    ul > li:not(.task-list-item)::before {
+      content: "";
+      position: absolute;
+      left: -0.95em;
+      top: calc(0.075em + 12px - 0.15em);
+      width: 0.3em;
+      height: 0.3em;
+      border-radius: 50%;
+      background-color: var(--obs-faint);
+    }
+
+    ol > li::marker {
+      color: var(--obs-faint);
+    }
+
+    li > ul,
+    li > ol {
+      position: relative;
+
+      &::before {
+        content: "\200B";
+        position: absolute;
+        display: block;
+        left: -0.85em;
+        top: 0;
+        bottom: 0;
+        border-right: 1px solid var(--obs-guide);
+      }
+    }
+
+    li.task-list-item[data-task="x"],
+    li.task-list-item[data-task="X"] {
+      text-decoration: line-through;
+      color: var(--obs-muted);
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 4px;
+      border: 1px solid var(--obs-checkbox-border);
+      background: transparent;
+      padding: 0;
+      margin: 0 0.6em 0 -24px;
+      width: 16px;
+      height: 16px;
+      position: relative;
+      top: 0.2em;
+      flex-shrink: 0;
+
+      &:checked {
+        background-color: var(--obs-checkbox);
+        border-color: var(--obs-checkbox);
+
+        &::after {
+          content: "";
+          top: -1px;
+          left: -1px;
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          display: block;
+          background-color: var(--obs-bg);
+          -webkit-mask-position: 52% 52%;
+          -webkit-mask-size: 65%;
+          -webkit-mask-repeat: no-repeat;
+          -webkit-mask-image: url("data:image/svg+xml,%3Csvg width=%2212px%22 height=%2210px%22 viewBox=%220 0 12 8%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg stroke=%22none%22 stroke-width=%221%22 fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg transform=%22translate%28-4.000000, -6.000000%29%22 fill=%22%23000000%22%3E%3Cpath d=%22M8.1043257,14.0367999 L4.52468714,10.5420499 C4.32525014,10.3497722 4.32525014,10.0368095 4.52468714,9.8424863 L5.24777413,9.1439454 C5.44721114,8.95166768 5.77142411,8.95166768 5.97086112,9.1439454 L8.46638057,11.5903727 L14.0291389,6.1442083 C14.2285759,5.95193057 14.5527889,5.95193057 14.7522259,6.1442083 L15.4753129,6.84377194 C15.6747499,7.03604967 15.6747499,7.35003511 15.4753129,7.54129009 L8.82741268,14.0367999 C8.62797568,14.2290777 8.3037627,14.2290777 8.1043257,14.0367999%22%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+          mask-position: 52% 52%;
+          mask-size: 65%;
+          mask-repeat: no-repeat;
+          mask-image: url("data:image/svg+xml,%3Csvg width=%2212px%22 height=%2210px%22 viewBox=%220 0 12 8%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg stroke=%22none%22 stroke-width=%221%22 fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg transform=%22translate%28-4.000000, -6.000000%29%22 fill=%22%23000000%22%3E%3Cpath d=%22M8.1043257,14.0367999 L4.52468714,10.5420499 C4.32525014,10.3497722 4.32525014,10.0368095 4.52468714,9.8424863 L5.24777413,9.1439454 C5.44721114,8.95166768 5.77142411,8.95166768 5.97086112,9.1439454 L8.46638057,11.5903727 L14.0291389,6.1442083 C14.2285759,5.95193057 14.5527889,5.95193057 14.7522259,6.1442083 L15.4753129,6.84377194 C15.6747499,7.03604967 15.6747499,7.35003511 15.4753129,7.54129009 L8.82741268,14.0367999 C8.62797568,14.2290777 8.3037627,14.2290777 8.1043257,14.0367999%22%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+      }
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid var(--obs-border);
+      margin: 32px 0;
+    }
+
+    // Obsidian wraps tables in a block whose margins don't collapse with the neighbours'.
+    table {
+      border-collapse: collapse;
+      margin: 32px 0;
+      padding: 0;
+      line-height: 1.3;
+      width: auto;
+    }
+
+    th,
+    td {
+      padding: 4px 8px;
+      border: 1px solid var(--obs-border);
+      text-align: start;
+      vertical-align: top;
+      min-width: 0;
+      line-height: 1.3;
+    }
+
+    th {
+      font-weight: 600;
+    }
+
+    tr,
+    tr:nth-child(2n),
+    thead,
+    tbody {
+      background: none;
+      border: none;
+    }
+  }
+
+  // Groups, as Obsidian's .canvas-node-group.
+  .canvas-node-group {
+    border: 1px solid var(--canvas-color);
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: var(--obs-shadow);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 7px;
+      background-color: color-mix(in oklch, var(--canvas-color) 7%, transparent);
+      pointer-events: none;
+    }
+
+    .canvas-group-label {
+      position: absolute;
+      left: 0;
+      top: calc(-4px * var(--zoom-multiplier));
+      transform: translate(0, -100%) scale(var(--zoom-multiplier));
+      transform-origin: bottom left;
+      max-width: calc(100% / var(--zoom-multiplier));
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 22.5px;
+      font-weight: 400;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: var(--obs-muted);
+      background-color: color-mix(in oklch, var(--canvas-color) 10%, transparent);
+      line-height: 1;
+    }
+  }
+
+  // Edges, as Obsidian's .canvas-edges.
+  .canvas-edges {
+    .canvas-display-path {
+      stroke-width: calc(2px * var(--zoom-multiplier));
+      stroke: var(--canvas-color, var(--obs-canvas-color));
+      fill: none;
+    }
+
+    .canvas-path-end {
+      stroke: var(--canvas-color, var(--obs-canvas-color));
+      fill: var(--canvas-color, var(--obs-canvas-color));
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1px;
+      transform-box: fill-box;
+      transform: scale(var(--zoom-multiplier));
+      transform-origin: center top;
+    }
+  }
+
+  .canvas-path-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .canvas-path-label-wrapper {
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .canvas-path-label {
+    font-size: calc(20px * var(--zoom-multiplier));
+    background-color: var(--obs-bg);
+    color: var(--obs-text);
+    border-radius: 4px;
+    padding: calc(6px * var(--zoom-multiplier));
+    line-height: 1.3;
+    white-space: pre-wrap;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    max-width: calc(17em * var(--zoom-multiplier));
+    width: max-content;
+  }
+}
+
+// Zoom controls, as Obsidian's .canvas-controls.
+.canvas-container .canvas-controls {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  left: auto;
+  bottom: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  z-index: 10;
+
+  .canvas-control-group {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: var(--obs-control-group);
+    border: 1px solid var(--obs-border);
+  }
+
+  .canvas-control-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 8px;
+    cursor: pointer;
+    background-color: var(--obs-bg);
+    border-bottom: 1px solid var(--obs-border);
+    color: var(--obs-muted);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2px;
+      pointer-events: none;
+    }
+  }
+
+  @media (hover: hover) {
+    .canvas-control-item:hover {
+      color: var(--obs-text);
+      background-color: var(--obs-control-group);
+    }
+  }
+}
+
+// Phones: skip painting boxes that are off screen.
+@media (pointer: coarse) {
+  .canvas-container .canvas-node {
+    content-visibility: auto;
   }
 }
