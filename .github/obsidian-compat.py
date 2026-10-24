@@ -12,7 +12,8 @@ Task lists. Obsidian parses `- [x] 1. text` as a task item that contains a numbe
 Board files. `материали/` stays unpublished; only the files the boards show are copied to
 `_board-files/` (same relative paths minus the `материали` folder), and the boards point there.
 Each PDF gets an image of its first page, which is what Obsidian shows in the box, and its page
-count for the toolbar.
+count for the toolbar. Files embedded in notes (`![[arcsin x.png]]`, found by name anywhere in the
+vault like Obsidian does) are copied there the same way and the embed points at the copy.
 """
 import json, pathlib, re, shutil, subprocess, sys, zlib
 
@@ -37,10 +38,37 @@ def convert(text):
     return MATH.sub(lambda m: f'<span class="obs-math-block">${m[1].strip()}$</span>', text)
 
 
+FILES = pathlib.Path("_board-files")
+
+
+def publish(src):
+    """Copy an unpublished vault file to _board-files/; returns its new vault-relative path."""
+    dest = FILES / src.replace("/материали/", "/")  # keep clear of the ignored folder name
+    (vault / dest).parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(vault / src, vault / dest)
+    return dest
+
+
+# Obsidian resolves `![[name]]` by file name anywhere in the vault.
+ASSETS = {}
+for f in sorted(vault.rglob("*")):
+    rel = f.relative_to(vault).as_posix()
+    if f.is_file() and f.suffix != ".md" and not rel.startswith((".", "_board-files/")):
+        ASSETS.setdefault(f.name, rel)
+EMBED = re.compile(r"!\[\[([^\]|#]+?\.(?!md\b)\w+)((?:[|#][^\]]*)?)\]\]")
+
+
+def embed(m):
+    rel = ASSETS.get(m[1]) or ASSETS.get(m[1].rsplit("/", 1)[-1])
+    if not rel or "материали/" not in rel:
+        return m[0]
+    return f"![[{publish(rel).as_posix()}{m[2]}]]"
+
+
 for p in vault.rglob("*.md"):
     src = p.read_text()
     # leave fenced code blocks alone: odd-numbered parts are the fences
-    new = "".join(part if i % 2 else convert(part) for i, part in enumerate(FENCED.split(src)))
+    new = "".join(part if i % 2 else EMBED.sub(embed, convert(part)) for i, part in enumerate(FENCED.split(src)))
     if new != src:
         p.write_text(new)
 
@@ -57,16 +85,13 @@ def has_page_labels(pdf):
     return False
 
 
-FILES = pathlib.Path("_board-files")
 for board in vault.rglob("*.canvas"):
     data = json.loads(board.read_text())
     for node in data["nodes"]:
         src = node.get("file", "")
         if node.get("type") != "file" or src.endswith(".md") or not (vault / src).is_file():
             continue
-        dest = FILES / src.replace("/материали/", "/")  # keep clear of the ignored folder name
-        (vault / dest).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(vault / src, vault / dest)
+        dest = publish(src)
         node["file"] = dest.as_posix()
         if src.lower().endswith(".pdf"):
             info = subprocess.run(["pdfinfo", vault / dest], capture_output=True, text=True, check=True).stdout

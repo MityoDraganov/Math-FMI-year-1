@@ -1,0 +1,54 @@
+// PDF boxes as Obsidian's pdf.js viewer (see board-client/50-pdf.js) and image boxes as its
+// .media-embed. Obsidian: .pdf-viewer-container is absolute and scrolls; pages are centered,
+// 10 px apart plus a 4 px border on every page after the first, the shadow on the page picture.
+.canvas-container .canvas-node-pdf {
+  .pdf-container {
+    position: relative;
+  }
+
+  .pdf-viewer-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    outline: none;
+  }
+
+  &.is-focused .pdf-viewer-container {
+    overflow: auto;
+    touch-action: pan-x pan-y;
+  }
+
+  .pdfViewer .page {
+    position: relative;
+    box-sizing: content-box;
+    margin: 0 auto 10px;
+
+    + .page {
+      border-top: 4px solid transparent;
+    }
+
+    > .pdf-page {
+      height: 100%;
+      -webkit-user-drag: none;
+    }
+  }
+
+  .pdf-page-input {
+    pointer-events: auto;
+  }
+}
+
+.canvas-container .canvas-node-image .media-embed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    flex-shrink: 0;
+    flex-grow: 1;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+    -webkit-user-drag: none;
+  }
+}

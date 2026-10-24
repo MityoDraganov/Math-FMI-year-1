@@ -1,0 +1,27 @@
+// Note pages (not the boards).
+
+// Display formulas wider than the page scroll sideways, as Obsidian's math blocks do on phones
+// (the page itself hides horizontal overflow, so their right side was unreachable).
+article:not(.canvas-page) mjx-container[display="true"] {
+  overflow: auto clip;
+  max-width: 100%;
+}
+
+// Board page sidebar (styles from the canvas-page plugin). Closed, it sits just off-screen and its
+// shadow showed as a grey strip along the left edge; on phones the open sidebar's close button sits
+// where the zoom controls are, so the controls move below it.
+.page[data-frame="canvas"]:not(.canvas-sidebar-open) .canvas-sidebar {
+  box-shadow: none;
+}
+
+@media (max-width: 800px) {
+  .page[data-frame="canvas"].canvas-sidebar-open .canvas-container .canvas-controls {
+    top: 52px;
+  }
+}
+
+// Zoom controls are focusable buttons (see OBS_CONTROLS); show keyboard focus inside the group.
+.canvas-container .canvas-controls .canvas-control-item:focus-visible {
+  outline: 2px solid var(--obs-link);
+  outline-offset: -2px;
+}

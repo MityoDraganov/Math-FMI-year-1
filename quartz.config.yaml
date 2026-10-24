@@ -102,7 +102,7 @@ plugins:
     enabled: false
     order: 92
   - source: "@quartz-community/quartz-fonts"
-    enabled: true
+    enabled: false # Quartz itself links the Google Fonts (theme above); this linked them a second time and dropped the fallback fonts (Schibsted Grotesk has no Cyrillic)
   - source: "@quartz-themes/core"
     enabled: false
     options:

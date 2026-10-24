@@ -1,0 +1,19 @@
+// Scrolling inside the focused box, as Obsidian's .markdown-preview-view (overflow-y: auto); see
+// 40-scroll.js. The board keeps every touch (touch-action: none) except on focused content that
+// overflows, where the browser scrolls natively; the scroll never chains to the page or the board.
+.canvas-container {
+  .canvas-node-content {
+    touch-action: none;
+  }
+
+  // (PDF boxes scroll their own .pdf-viewer-container)
+  .canvas-node.is-focused > .canvas-node-content:not(.pdf-embed) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    &.obs-scroll {
+      touch-action: pan-x pan-y;
+    }
+  }
+}

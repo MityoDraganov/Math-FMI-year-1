@@ -1,0 +1,213 @@
+// Selection, focus and the content blocker, as Obsidian's read-only canvas (app.css: .canvas-wrapper,
+// .canvas-node.is-focused, .canvas-selection, .canvas-menu, .canvas-edges). See 30-select.js.
+.canvas-container {
+  --obs-accent: hsl(258, 88%, 66%);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+
+  &.is-grabbing {
+    cursor: grabbing;
+  }
+
+  // Only boxes, group labels and edges take the pointer; anything else is the empty board.
+  .canvas-viewport,
+  .canvas-nodes,
+  .canvas-edges,
+  .canvas-path-labels {
+    pointer-events: none;
+  }
+
+  .canvas-node,
+  .canvas-group-label,
+  .canvas-path-label {
+    pointer-events: auto;
+  }
+
+  // a group's inside lets clicks through until the group is selected; its label always takes them
+  .canvas-node-group:not(.is-focused):not(.is-selected) {
+    pointer-events: none;
+  }
+
+  // Obsidian's .canvas-node-content-blocker: the content of a box that is not focused gets no
+  // pointer events (no links, previews, text selection or scrolling; the first click focuses it)
+  .canvas-node:not(.is-focused) > .canvas-node-content > * {
+    pointer-events: none;
+  }
+
+  .canvas-node.is-focused > .canvas-node-content {
+    user-select: text;
+    -webkit-user-select: text;
+    -webkit-touch-callout: default;
+  }
+
+  // focus ring: 2 px accent outside the border; colored boxes use their own color
+  .canvas-node.is-focused,
+  .canvas-node.is-selected {
+    border-color: var(--obs-accent);
+    box-shadow: var(--obs-shadow), 0 0 0 2px var(--obs-accent);
+
+    &:hover {
+      box-shadow: var(--obs-shadow), 0 0 0 2px var(--obs-accent);
+    }
+
+    &[style*="--canvas-node-color"] {
+      border-color: var(--canvas-color);
+      box-shadow:
+        inset 0 0 0 1px var(--canvas-color),
+        0 0 0 2px var(--canvas-color);
+    }
+
+    .canvas-file-label a {
+      color: var(--obs-muted);
+    }
+  }
+
+  .canvas-node-group.is-focused,
+  .canvas-node-group.is-selected {
+    border-color: var(--obs-accent);
+    box-shadow: var(--obs-shadow), 0 0 0 2px var(--obs-accent);
+
+    &[style*="--canvas-node-color"] {
+      border-color: var(--canvas-color);
+      box-shadow:
+        inset 0 0 0 1px var(--canvas-color),
+        0 0 0 2px var(--canvas-color);
+    }
+  }
+
+  // Space held: pan with the left button
+  .canvas-mover {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  // selection rectangle and the box around several selected nodes
+  .canvas-selection {
+    pointer-events: none;
+    position: absolute;
+    background-color: color-mix(in oklch, var(--obs-accent) 10%, transparent);
+    border: 2px solid var(--obs-accent);
+    z-index: -1;
+
+    &.mod-group-selection {
+      border-width: 3px;
+      border-radius: 3px;
+      background-color: color-mix(in oklch, var(--obs-accent) 3%, transparent);
+      border-color: color-mix(in oklch, var(--obs-accent) 30%, transparent);
+    }
+  }
+
+  // selection toolbar (screen space, moved with a transform)
+  .canvas-menu-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    z-index: 11;
+  }
+
+  &.is-dragging .canvas-menu-container {
+    display: none;
+  }
+
+  .canvas-menu {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    line-height: 1;
+    background-color: var(--obs-bg);
+    border: 1px solid var(--obs-border);
+    border-radius: 4px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+    display: flex;
+    padding: 2px;
+    gap: 1px;
+
+    .clickable-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 8px;
+      margin: 0;
+      border: none;
+      border-radius: 8px;
+      background-color: transparent;
+      color: var(--obs-muted);
+      cursor: pointer;
+      font: inherit;
+      line-height: 1;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        stroke-width: 2px;
+        opacity: 0.85;
+        transition: opacity 140ms ease-in-out;
+      }
+    }
+
+    @media (hover: hover) {
+      .clickable-icon:hover {
+        background-color: var(--obs-hover);
+        svg {
+          opacity: 1;
+        }
+      }
+
+      .clickable-icon:active {
+        color: var(--obs-text);
+        background-color: var(--obs-hover);
+      }
+    }
+  }
+
+  // edges: hover thickens the line (an invisible 24 px stroke takes the pointer; desktop only)
+  .canvas-edges {
+    .canvas-display-path {
+      transition: stroke-width 100ms ease-out;
+    }
+
+    .canvas-interaction-path {
+      pointer-events: stroke;
+      fill: none;
+      stroke-width: calc(24px * var(--zoom-multiplier));
+      stroke: transparent;
+      transition: stroke 100ms ease-out;
+    }
+
+    g:hover .canvas-display-path {
+      stroke-width: calc(5.5px * var(--zoom-multiplier));
+    }
+
+    g:hover .canvas-interaction-path {
+      stroke: color-mix(in oklch, var(--canvas-color, var(--obs-canvas-color)) 10%, transparent);
+    }
+  }
+
+  &.is-dragging .canvas-interaction-path {
+    pointer-events: none;
+  }
+
+  // after an eased zoom the labels ease to their new size
+  &.mod-animating .canvas-file-label,
+  &.mod-animating .canvas-group-label {
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+:root[saved-theme="dark"] .canvas-container {
+  --obs-hover: color-mix(in oklch, white 6.7%, transparent);
+}
+
+:root[saved-theme="light"] .canvas-container {
+  --obs-hover: color-mix(in oklch, black 6.7%, transparent);
+}
