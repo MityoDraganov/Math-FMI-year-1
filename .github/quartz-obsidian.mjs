@@ -66,6 +66,75 @@ const OBS_PDF_TOOLBAR = "<div class=\"pdf-toolbar\"><div class=\"pdf-toolbar-lef
 
 const OBS_CONTROLS = "<div class=\"canvas-control-group mod-raised\"><div class=\"canvas-control-item canvas-zoom-in\" aria-label=\"Zoom in\" data-tooltip-position=\"left\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-plus\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg></div><div class=\"canvas-control-item canvas-reset-zoom\" aria-label=\"Reset zoom\" data-tooltip-position=\"left\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-rotate-cw\"><path d=\"M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8\"></path><path d=\"M21 3v5h-5\"></path></svg></div><div class=\"canvas-control-item canvas-reset-view\" aria-label=\"Zoom to fit\" data-tooltip-position=\"left\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-maximize\"><path d=\"M8 3H5a2 2 0 0 0-2 2v3\"></path><path d=\"M21 8V5a2 2 0 0 0-2-2h-3\"></path><path d=\"M3 16v3a2 2 0 0 0 2 2h3\"></path><path d=\"M16 21h3a2 2 0 0 0 2-2v-3\"></path></svg></div><div class=\"canvas-control-item canvas-zoom-out\" aria-label=\"Zoom out\" data-tooltip-position=\"left\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"svg-icon lucide-minus\"><path d=\"M5 12h14\"></path></svg></div></div>"
 
+// Code injected into the plugin's client script, which is a single-quoted string in the bundle.
+const inline = (code) => code.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n")
+
+// Runs once per board. Boxes show pictures made at build time (board-snapshots.mjs) and switch to
+// live content only when visible at a zoom where the picture would look soft, one box per frame
+// after the gesture settles. Also: the dot layer, and an fps meter with ?fps in the URL.
+function obsBoardInit(t, M, view) {
+  const D = document.createElement("div")
+  D.className = "obs-dots"
+  t.prepend(D)
+  t.__dots = D
+  const base = t.dataset.snap, ver = t.dataset.snapV
+  const boxes = base ? [...t.querySelectorAll(".canvas-node-content[data-snapped]")].map((el) => {
+    const n = el.closest(".canvas-node"), img = document.createElement("img")
+    img.className = "obs-snap"
+    img.alt = ""
+    img.decoding = "async"
+    img.draggable = false
+    img.onerror = () => el.classList.add("is-live")
+    el.prepend(img)
+    return { el, img, id: n.dataset.nodeId, x: parseFloat(n.style.left), y: parseFloat(n.style.top), w: parseFloat(n.style.width), h: parseFloat(n.style.height), live: false }
+  }) : []
+  let queue = [], frame = 0
+  const work = () => {
+    frame = 0
+    const b = queue.shift()
+    if (b) { b.el.classList.toggle("is-live", b.live); if (queue.length) frame = requestAnimationFrame(work) }
+  }
+  t.__tiers = () => {
+    const { c, a, o } = view(), r = t.getBoundingClientRect(), ox = +M.dataset.ox || 0, oy = +M.dataset.oy || 0
+    const need = o * (window.devicePixelRatio || 1)
+    const theme = document.documentElement.getAttribute("saved-theme") === "light" ? "light" : "dark"
+    const mx = r.width / o / 2, my = r.height / o / 2 // half a screen around the visible area
+    const x0 = -c / o - ox - mx, y0 = -a / o - oy - my, x1 = x0 + r.width / o + 2 * mx, y1 = y0 + r.height / o + 2 * my
+    queue = []
+    for (const b of boxes) {
+      const vis = b.x < x1 && b.x + b.w > x0 && b.y < y1 && b.y + b.h > y0
+      const live = vis && need > 1.5
+      const src = base + b.id + "-" + theme + "-" + (vis && need > 0.6 ? "m" : "l") + ".jpg?v=" + ver
+      if (b.img.getAttribute("src") !== src) b.img.src = src
+      if (b.live !== live) { b.live = live; queue.push(b) }
+    }
+    cancelAnimationFrame(frame)
+    if (queue.length) frame = requestAnimationFrame(work)
+  }
+  document.addEventListener("themechange", () => t.__tiers())
+  if (/[?&]fps\b/.test(location.search)) {
+    const m = document.createElement("div")
+    m.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99;padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.75);color:#0f0;font:12px ui-monospace,monospace;pointer-events:none"
+    document.body.append(m)
+    let last = performance.now(), n = 0, worst = 0, t0 = last
+    const tick = (now) => {
+      const d = now - last
+      last = now
+      n++
+      worst = Math.max(worst, d)
+      if (now - t0 > 1000) {
+        const { o } = view()
+        m.textContent = `${Math.round((n * 1000) / (now - t0))} fps · worst ${Math.round(worst)} ms · zoom ${o.toFixed(2)} · live ${boxes.filter((b) => b.live).length}/${boxes.length} · dpr ${window.devicePixelRatio}`
+        n = 0
+        worst = 0
+        t0 = now
+      }
+      requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }
+}
+
 const patches = [
   // PDF boxes, as Obsidian's .pdf-embed: its toolbar over the first page (rendered at build time
   // by obsidian-compat.py); the whole box opens the PDF.
@@ -75,7 +144,7 @@ const patches = [
         const img = resolveRelative(slug2, slugifyFilePath(node.pdfPage1));
         return u2("div", { class: "canvas-node canvas-node-file canvas-node-pdf", "data-node-id": node.id, style: styleStr, children: [
           u2("div", { class: "canvas-file-label", children: u2("a", { href, class: "canvas-file-link", target: "_blank", rel: "noopener", children: filename }) }),
-          u2("div", { class: "canvas-node-content pdf-embed", dangerouslySetInnerHTML: { __html: ${JSON.stringify(OBS_PDF_TOOLBAR)}.replace("__PAGES__", String(node.pdfPages)) + '<a class="pdf-container" href="' + href + '" target="_blank" rel="noopener"><img class="pdf-page" src="' + img + '" alt="" loading="lazy" decoding="async"></a>' } })
+          u2("div", { class: "canvas-node-content pdf-embed", dangerouslySetInnerHTML: { __html: ${JSON.stringify(OBS_PDF_TOOLBAR)}.replace("of __PAGES__", node.pdfLabels ? "(1 of " + node.pdfPages + ")" : "of " + node.pdfPages).replace('type="number"', node.pdfLabels ? 'type="text"' : 'type="number"') + '<a class="pdf-container" href="' + href + '" target="_blank" rel="noopener"><img class="pdf-page" src="' + img + '" alt="" loading="lazy" decoding="async"></a>' } })
         ] });
       }
       const embedded = resolveEmbeddedHtml(fileSlug, slug2, allFiles, node.subpath, visited);`],
@@ -100,15 +169,14 @@ const patches = [
             u2("div", { class: "canvas-nodes", style: $1, children: nodes.filter((n) => n.type !== "group").map((node) => renderNode(node, renderedTexts, slug2, allFiles, visited)) })`],
   [`class: "canvas-viewport", style: \`width:\${viewWidth}px;height:\${viewHeight}px\``,
     `class: "canvas-viewport", "data-ox": -minX + padding, "data-oy": -minY + padding, style: \`width:\${viewWidth}px;height:\${viewHeight}px\``],
-  // Client: the dot grid follows every frame; label size and the zoomed-out state are applied once
-  // the gesture settles (Obsidian does the same), so a pan or pinch only moves one GPU layer
-  // instead of restyling and repainting the board each frame. After a zoom change the layer is
-  // re-rasterized once so text is sharp at the new scale.
+  // Client: at most one update per frame; the dots are their own layer that only moves while
+  // panning; label size, zoomed-out state and which boxes show live content are applied once the
+  // gesture settles (Obsidian also defers work until the viewport stops moving).
   ["v=()=>{M.style.transform=`translate(${c}px, ${a}px) scale(${o})`}",
-    "v=()=>{M.style.transform=`translate(${c}px, ${a}px) scale(${o})`;let z=Math.log2(o),G=(z<-3.3?160:z<-2.16?80:z<-.91?40:20)*o,X=parseFloat(M.dataset.ox)||0,Y2=parseFloat(M.dataset.oy)||0;t.style.backgroundSize=`${G}px ${G}px`;t.style.backgroundPosition=`${c+X*o}px ${a+Y2*o}px`;clearTimeout(t.__st);t.__st=setTimeout(()=>t.__settle&&t.__settle(),150)}"],
+    "v=()=>{t.__vr||(t.__vr=requestAnimationFrame(()=>{t.__vr=0;M.style.transform=`translate(${c}px, ${a}px) scale(${o})`;let z=Math.log2(o),G=(z<-3.3?160:z<-2.16?80:z<-.91?40:20)*o,X=parseFloat(M.dataset.ox)||0,Y2=parseFloat(M.dataset.oy)||0,D=t.__dots;if(D){D.__g!==G&&(D.__g=G,D.style.backgroundSize=`${G}px ${G}px`);D.style.transform=`translate3d(${((c+X*o)%G+G)%G-G}px,${((a+Y2*o)%G+G)%G-G}px,0)`}clearTimeout(t.__st);t.__st=setTimeout(()=>t.__settle&&t.__settle(),150)}))}"],
   // Obsidian's zoom-to-fit: 10% margin, never above 100%, centered on the board.
   ["o=Math.min(r,d,1)*.9", "r=n.width/(1.1*(l-100)),d=n.height/(1.1*(u-100)),o=Math.min(r,d,1)"],
-  ["q();let F=o,B=c,S=a", "q();M.style.willChange=\"transform\";t.__settle=()=>{if(t.__so!==o){t.__so=o;M.style.willChange=\"auto\";requestAnimationFrame(()=>requestAnimationFrame(()=>{M.style.willChange=\"transform\"}))}t.style.setProperty(\"--zoom-multiplier\",String(Math.sqrt(1/o)));t.classList.toggle(\"mod-zoomed-out\",Math.log2(o)<=-1.7)};t.__settle();t.__setView=(x,y,s)=>{c=x,a=y,o=s,v()};let F=o,B=c,S=a"],
+  ["q();let F=o,B=c,S=a", "q();" + inline("(" + obsBoardInit.toString() + ")(t,M,()=>({c,a,o}))") + ";M.style.willChange=\"transform\";t.__settle=()=>{if(t.__so!==o){t.__so=o;M.style.willChange=\"auto\";requestAnimationFrame(()=>requestAnimationFrame(()=>{M.style.willChange=\"transform\"}))}t.style.setProperty(\"--zoom-multiplier\",String(Math.sqrt(1/o)));t.classList.toggle(\"mod-zoomed-out\",Math.log2(o)<=-1.7);t.__tiers&&t.__tiers()};t.__settle();t.__setView=(x,y,s)=>{c=x,a=y,o=s,v()};let F=o,B=c,S=a"],
   // Obsidian's wheel: scrolling pans (x0.93), ctrl/cmd + wheel and trackpad pinch zoom by 2^(-dy/300).
   ["e.preventDefault();let i=t.getBoundingClientRect(),T=e.clientX-i.left,p=e.clientY-i.top,g=o,X=e.deltaY>0?.9:1.1;o=Math.max(w,Math.min(H,o*X)),c=T-(T-c)*(o/g),a=p-(p-a)*(o/g),v(),m()",
     "e.preventDefault();let dx=e.deltaX,dy=e.deltaY;e.deltaMode===1?(dx*=40,dy*=40):e.deltaMode===2&&(dx*=800,dy*=800);if(e.ctrlKey||e.metaKey){let i=t.getBoundingClientRect(),T=e.clientX-i.left,p=e.clientY-i.top,g=o,z=-dy/300;/Mac/.test(navigator.platform)&&!Number.isInteger(dy)&&(z*=2);o=Math.max(w,Math.min(H,o*Math.pow(2,z))),c=T-(T-c)*(o/g),a=p-(p-a)*(o/g)}else e.shiftKey&&dx===0?c-=dy*.93:(c-=dx*.93,a-=dy*.93);v(),m()"],

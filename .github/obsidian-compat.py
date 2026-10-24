@@ -14,7 +14,7 @@ Board files. `материали/` stays unpublished; only the files the boards 
 Each PDF gets an image of its first page, which is what Obsidian shows in the box, and its page
 count for the toolbar.
 """
-import json, pathlib, re, shutil, subprocess, sys
+import json, pathlib, re, shutil, subprocess, sys, zlib
 
 vault = pathlib.Path(sys.argv[1])
 
@@ -44,6 +44,19 @@ for p in vault.rglob("*.md"):
     if new != src:
         p.write_text(new)
 
+def has_page_labels(pdf):
+    data = pdf.read_bytes()
+    if b"/PageLabels" in data:
+        return True
+    for m in re.finditer(rb"stream\r?\n(.*?)endstream", data, re.S):
+        try:
+            if b"/PageLabels" in zlib.decompress(m[1]):
+                return True
+        except zlib.error:
+            pass
+    return False
+
+
 FILES = pathlib.Path("_board-files")
 for board in vault.rglob("*.canvas"):
     data = json.loads(board.read_text())
@@ -58,6 +71,7 @@ for board in vault.rglob("*.canvas"):
         if src.lower().endswith(".pdf"):
             info = subprocess.run(["pdfinfo", vault / dest], capture_output=True, text=True, check=True).stdout
             node["pdfPages"] = int(re.search(r"^Pages:\s+(\d+)", info, re.M)[1])
+            node["pdfLabels"] = has_page_labels(vault / dest)  # Obsidian then shows "(1 of N)"
             # 1560 px = a 520 px box at 3x (phone screens)
             out = vault / dest.with_name(dest.name + ".page1")
             subprocess.run(["pdftoppm", "-f", "1", "-l", "1", "-singlefile", "-scale-to-x", "1560", "-scale-to-y", "-1",
