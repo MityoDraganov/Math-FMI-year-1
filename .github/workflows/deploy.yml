@@ -31,6 +31,8 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+      - name: Install PDF tools (first pages of the PDFs on the boards)
+        run: sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Build
         working-directory: quartz
         run: |
@@ -38,7 +40,7 @@ jobs:
           npx quartz plugin install --from-config
           # render boards and math the way Obsidian does (see the scripts for details)
           node ../vault/.github/quartz-obsidian.mjs
-          python3 ../vault/.github/obsidian-math.py ../vault
+          python3 ../vault/.github/obsidian-compat.py ../vault
           npx quartz build -d ../vault -o ../public
       - uses: actions/upload-pages-artifact@v3
         with:

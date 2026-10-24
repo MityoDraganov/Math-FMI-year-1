@@ -22,6 +22,8 @@
   --obs-checkbox-border: #666666;
   --obs-guide: color-mix(in oklch, white 12%, transparent);
   --obs-control-group: #333333;
+  --obs-field: #2e2e2e;
+  --obs-pdf-shadow: 0 0 0 1px #333333;
   --obs-shadow: 0px 0.5px 1px 0.5px rgba(0, 0, 0, 0.1);
 }
 
@@ -44,6 +46,8 @@
   --obs-checkbox-border: #ababab;
   --obs-guide: color-mix(in oklch, black 12%, transparent);
   --obs-control-group: #e4e4e4;
+  --obs-field: #ffffff;
+  --obs-pdf-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
   --obs-shadow: 0px 0.5px 1px 0.5px rgba(0, 0, 0, 0.1);
 }
 
@@ -494,6 +498,101 @@
     text-align: center;
     max-width: calc(17em * var(--zoom-multiplier));
     width: max-content;
+  }
+}
+
+// PDF boxes, as Obsidian's .pdf-embed (toolbar + first page; see .github/quartz-obsidian.mjs).
+.canvas-container .canvas-node-pdf {
+  .pdf-embed {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .pdf-toolbar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 4px 12px;
+    overflow: hidden;
+    background-color: var(--obs-bg);
+    border-bottom: 1px solid var(--obs-border);
+    font-size: 15px;
+  }
+
+  .pdf-toolbar-left,
+  .pdf-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .pdf-toolbar-spacer {
+    width: 12px;
+  }
+
+  .pdf-toolbar-divider {
+    width: 1px;
+    height: 16px;
+    background-color: var(--obs-border);
+  }
+
+  .clickable-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    border-radius: 8px;
+    color: var(--obs-muted);
+
+    svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2px;
+    }
+  }
+
+  .pdf-page-input {
+    width: 7ch;
+    height: 30px;
+    padding: 4px 8px;
+    margin: 0;
+    border: 1px solid var(--obs-border);
+    border-radius: 8px;
+    background-color: var(--obs-field);
+    color: var(--obs-text);
+    font: inherit;
+    font-size: 13px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+  }
+
+  .pdf-page-numbers {
+    margin: 0 4px 0 0;
+    font-size: 13px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    color: var(--obs-text);
+  }
+
+  .pdf-container {
+    display: block;
+    flex-grow: 1;
+    overflow: hidden;
+    background-color: var(--obs-bg);
+  }
+
+  .pdf-page {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: var(--obs-pdf-shadow);
   }
 }
 
