@@ -1,0 +1,14 @@
+@use "./variables.scss" as *;
+
+// Phones: each scrollable board box becomes its own GPU layer inside the zoomed board,
+// which runs iOS Safari out of memory and makes it reload the page on every swipe.
+@media (pointer: coarse) {
+  .canvas-node {
+    box-shadow: none;
+    transition: none;
+    content-visibility: auto;
+  }
+  .canvas-node-content {
+    overflow: hidden;
+  }
+}

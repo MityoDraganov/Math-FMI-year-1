@@ -27,6 +27,7 @@ jobs:
           git clone https://github.com/jackyzha0/quartz.git quartz
           git -C quartz checkout 97a2d05
           cp vault/quartz.config.yaml quartz/
+          cp vault/.github/quartz-custom.scss quartz/quartz/styles/custom.scss
       - uses: actions/setup-node@v6
         with:
           node-version: 24
