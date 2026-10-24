@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 24
       - name: Install PDF tools (first pages of the PDFs on the boards)
-        run: sudo apt-get install -y --no-install-recommends poppler-utils
+        run: sudo apt-get update -q && sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Build
         working-directory: quartz
         run: |
