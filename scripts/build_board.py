@@ -39,7 +39,7 @@ def source(path):
 
 lectures = sorted(p for p in glob.glob(f"{subj}/лекции/[0-9]*.md"))
 nodes, edges, placed = [], [], {}
-lst = [f"# Табло: {subj}", "", f"Визуалното табло: [[{out}|Табло.canvas]]", ""]
+lst = [f"# Табло: {subj}", ""]
 nm = lambda p: os.path.splitext(os.path.basename(p))[0]
 wl = lambda p: f"[[{p[:-3]}|{nm(p) if ' ' in nm(p) else nm(p).replace('-', ' ')}]]"
 fnode = lambda i, f, x, y, w, h, c=None: {"id": i, "type": "file", "file": f, "x": x, "y": y, "width": w, "height": h, **({"color": c} if c else {})}
