@@ -652,9 +652,3 @@
   }
 }
 
-// Phones: skip painting boxes that are off screen.
-@media (pointer: coarse) {
-  .canvas-container .canvas-node {
-    content-visibility: auto;
-  }
-}

@@ -42,6 +42,12 @@ jobs:
           node ../vault/.github/quartz-obsidian.mjs
           python3 ../vault/.github/obsidian-compat.py ../vault
           npx quartz build -d ../vault -o ../public
+      - name: Pre-render math (MathJax 4.1.3, Obsidian's settings)
+        run: |
+          mkdir mathjax && cd mathjax
+          npm init -y > /dev/null
+          npm i --no-audit --no-fund mathjax@4.1.3 @mathjax/mathjax-tex-font@4.1.3 @mathjax/mathjax-mhchem-font-extension@4.1.3
+          cp ../vault/.github/mathjax-prerender.mjs . && node mathjax-prerender.mjs ../public
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public

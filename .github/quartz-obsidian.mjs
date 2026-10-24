@@ -100,12 +100,15 @@ const patches = [
             u2("div", { class: "canvas-nodes", style: $1, children: nodes.filter((n) => n.type !== "group").map((node) => renderNode(node, renderedTexts, slug2, allFiles, visited)) })`],
   [`class: "canvas-viewport", style: \`width:\${viewWidth}px;height:\${viewHeight}px\``,
     `class: "canvas-viewport", "data-ox": -minX + padding, "data-oy": -minY + padding, style: \`width:\${viewWidth}px;height:\${viewHeight}px\``],
-  // Client: label size, zoomed-out state and dot grid follow the zoom as in Obsidian.
+  // Client: the dot grid follows every frame; label size and the zoomed-out state are applied once
+  // the gesture settles (Obsidian does the same), so a pan or pinch only moves one GPU layer
+  // instead of restyling and repainting the board each frame. After a zoom change the layer is
+  // re-rasterized once so text is sharp at the new scale.
   ["v=()=>{M.style.transform=`translate(${c}px, ${a}px) scale(${o})`}",
-    "v=()=>{M.style.transform=`translate(${c}px, ${a}px) scale(${o})`;let z=Math.log2(o),G=(z<-3.3?160:z<-2.16?80:z<-.91?40:20)*o,X=parseFloat(M.dataset.ox)||0,Y2=parseFloat(M.dataset.oy)||0;t.style.setProperty(\"--zoom-multiplier\",String(Math.sqrt(1/o)));t.classList.toggle(\"mod-zoomed-out\",z<=-1.7);t.style.backgroundSize=`${G}px ${G}px`;t.style.backgroundPosition=`${c+X*o}px ${a+Y2*o}px`}"],
+    "v=()=>{M.style.transform=`translate(${c}px, ${a}px) scale(${o})`;let z=Math.log2(o),G=(z<-3.3?160:z<-2.16?80:z<-.91?40:20)*o,X=parseFloat(M.dataset.ox)||0,Y2=parseFloat(M.dataset.oy)||0;t.style.backgroundSize=`${G}px ${G}px`;t.style.backgroundPosition=`${c+X*o}px ${a+Y2*o}px`;clearTimeout(t.__st);t.__st=setTimeout(()=>t.__settle&&t.__settle(),150)}"],
   // Obsidian's zoom-to-fit: 10% margin, never above 100%, centered on the board.
   ["o=Math.min(r,d,1)*.9", "r=n.width/(1.1*(l-100)),d=n.height/(1.1*(u-100)),o=Math.min(r,d,1)"],
-  ["q();let F=o,B=c,S=a", "q();t.__setView=(x,y,s)=>{c=x,a=y,o=s,v()};let F=o,B=c,S=a"],
+  ["q();let F=o,B=c,S=a", "q();M.style.willChange=\"transform\";t.__settle=()=>{if(t.__so!==o){t.__so=o;M.style.willChange=\"auto\";requestAnimationFrame(()=>requestAnimationFrame(()=>{M.style.willChange=\"transform\"}))}t.style.setProperty(\"--zoom-multiplier\",String(Math.sqrt(1/o)));t.classList.toggle(\"mod-zoomed-out\",Math.log2(o)<=-1.7)};t.__settle();t.__setView=(x,y,s)=>{c=x,a=y,o=s,v()};let F=o,B=c,S=a"],
   // Obsidian's wheel: scrolling pans (x0.93), ctrl/cmd + wheel and trackpad pinch zoom by 2^(-dy/300).
   ["e.preventDefault();let i=t.getBoundingClientRect(),T=e.clientX-i.left,p=e.clientY-i.top,g=o,X=e.deltaY>0?.9:1.1;o=Math.max(w,Math.min(H,o*X)),c=T-(T-c)*(o/g),a=p-(p-a)*(o/g),v(),m()",
     "e.preventDefault();let dx=e.deltaX,dy=e.deltaY;e.deltaMode===1?(dx*=40,dy*=40):e.deltaMode===2&&(dx*=800,dy*=800);if(e.ctrlKey||e.metaKey){let i=t.getBoundingClientRect(),T=e.clientX-i.left,p=e.clientY-i.top,g=o,z=-dy/300;/Mac/.test(navigator.platform)&&!Number.isInteger(dy)&&(z*=2);o=Math.max(w,Math.min(H,o*Math.pow(2,z))),c=T-(T-c)*(o/g),a=p-(p-a)*(o/g)}else e.shiftKey&&dx===0?c-=dy*.93:(c-=dx*.93,a-=dy*.93);v(),m()"],
@@ -176,16 +179,24 @@ function obsMathClient() {
     },
     startup: { typeset: false },
   }
-  const s = document.createElement("script")
-  s.src = "https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml-nofont.js"
-  s.async = true
-  document.head.append(s)
+  // Pages are normally pre-rendered at build time (mathjax-prerender.mjs); MathJax is only loaded
+  // if a page still has unrendered formulas.
+  let loading = false
+  const load = () => {
+    if (loading) return
+    loading = true
+    const s = document.createElement("script")
+    s.src = "https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml-nofont.js"
+    s.async = true
+    document.head.append(s)
+  }
   let sheet = null
   let busy = false
   const ready = () => new Promise((r) => { const w = () => (window.MathJax?.startup?.promise ? MathJax.startup.promise.then(r) : setTimeout(w, 50)); w() })
   const run = async () => {
-    if (busy) return
+    if (busy || !document.querySelector(".math[data-tex]:not(.is-loaded)")) return
     busy = true
+    load()
     await ready()
     let els
     while ((els = document.querySelectorAll(".math[data-tex]:not(.is-loaded)")).length) {
