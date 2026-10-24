@@ -148,6 +148,9 @@ const patches = [
         ] });
       }
       const embedded = resolveEmbeddedHtml(fileSlug, slug2, allFiles, node.subpath, visited);`],
+  // Safari renders Cyrillic with Bulgarian letterforms (based on the system language) unless told
+  // otherwise; Obsidian shows the standard forms, so the board asks for them.
+  ['class: "canvas-container",', 'class: "canvas-container", lang: "ru",'],
   // Obsidian's zoom range is 2^-4 … 2^1 (the plugin's options don't reach this component).
   ["const minZoom = opts.minZoom ?? 0.1;", "const minZoom = opts.minZoom ?? 0.0625;"],
   ["const maxZoom = opts.maxZoom ?? 5;", "const maxZoom = opts.maxZoom ?? 2;"],
