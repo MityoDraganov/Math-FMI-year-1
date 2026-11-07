@@ -393,6 +393,26 @@
    "color": "3"
   },
   {
+   "id": "gen-X03-2",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/03-03-Обратни-триг-arcctg-плюс-arctg.md",
+   "x": 5020,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X03-3",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/03-04-Обратни-триг-cos-2arccos.md",
+   "x": 4200,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
    "id": "gen-B7",
    "type": "file",
    "file": "Основи/Тригонометрия (единична окръжност и формули).md",
@@ -411,6 +431,198 @@
    "width": 560,
    "height": 540,
    "color": "5"
+  },
+  {
+   "id": "gen-g04",
+   "type": "group",
+   "x": 5600,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "04 Точна горна и долна граница"
+  },
+  {
+   "id": "gen-L04",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/04-Точна-горна-и-долна-граница.md",
+   "x": 5620,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S04",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Записки от упражненията на втора група/Tema04.pdf",
+   "x": 6260,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-X04-0",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/04-01-Точна-граница-интервали-и-множества.md",
+   "x": 5600,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X04-1",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/04-02-Точна-граница-sup-на-минус-A.md",
+   "x": 6010,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X04-2",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/04-03-Точна-граница-sup-на-A-плюс-B.md",
+   "x": 6420,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X04-3",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/04-06-Точна-граница-inf-на-q-на-n.md",
+   "x": 5600,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-B9",
+   "type": "file",
+   "file": "Основи/Логика - импликация, квантори, отрицание.md",
+   "x": 5600,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-B10",
+   "type": "file",
+   "file": "Основи/Геометрична прогресия.md",
+   "x": 6220,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-g05",
+   "type": "group",
+   "x": 7000,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "05 Редици сходимост"
+  },
+  {
+   "id": "gen-L05",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/05-Редици-сходимост.md",
+   "x": 7020,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S05",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Записки от упражненията на втора група/Tema05.pdf",
+   "x": 7660,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-g06",
+   "type": "group",
+   "x": 8400,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "06 Редици сходимост 2"
+  },
+  {
+   "id": "gen-L06",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/06-Редици-сходимост-2.md",
+   "x": 8420,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S06",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Записки от упражненията на втора група/Tema06.pdf",
+   "x": 9060,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-X06-0",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/06-01-Числото-e-сходимост.md",
+   "x": 8400,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X06-1",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/задачи/06-02-Граници-с-e.md",
+   "x": 8810,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-g07",
+   "type": "group",
+   "x": 9800,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "07 Безкрайни суми"
+  },
+  {
+   "id": "gen-L07",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/лекции/07-Безкрайни-суми.md",
+   "x": 9820,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S07",
+   "type": "file",
+   "file": "Диференциално и интегрално смятане/материали/00-Главна/Записки от упражненията на втора група/Tema07.pdf",
+   "x": 10460,
+   "y": 40,
+   "width": 520,
+   "height": 860
   },
   {
    "id": "gen-konspekt",
@@ -677,6 +889,20 @@
    "toSide": "bottom"
   },
   {
+   "id": "gen-e-gen-L03-gen-X03-2",
+   "fromNode": "gen-L03",
+   "fromSide": "top",
+   "toNode": "gen-X03-2",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L03-gen-X03-3",
+   "fromNode": "gen-L03",
+   "fromSide": "top",
+   "toNode": "gen-X03-3",
+   "toSide": "bottom"
+  },
+  {
    "id": "gen-e-gen-L03-gen-B7",
    "fromNode": "gen-L03",
    "fromSide": "bottom",
@@ -689,6 +915,216 @@
    "fromNode": "gen-L03",
    "fromSide": "bottom",
    "toNode": "gen-B8",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L03-gen-L04",
+   "fromNode": "gen-L03",
+   "fromSide": "right",
+   "toNode": "gen-L04",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-X04-0",
+   "fromNode": "gen-L04",
+   "fromSide": "top",
+   "toNode": "gen-X04-0",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-X04-1",
+   "fromNode": "gen-L04",
+   "fromSide": "top",
+   "toNode": "gen-X04-1",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-X04-2",
+   "fromNode": "gen-L04",
+   "fromSide": "top",
+   "toNode": "gen-X04-2",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-X04-3",
+   "fromNode": "gen-L04",
+   "fromSide": "top",
+   "toNode": "gen-X04-3",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-B0",
+   "fromNode": "gen-L04",
+   "fromSide": "bottom",
+   "toNode": "gen-B0",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-B9",
+   "fromNode": "gen-L04",
+   "fromSide": "bottom",
+   "toNode": "gen-B9",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-B3",
+   "fromNode": "gen-L04",
+   "fromSide": "bottom",
+   "toNode": "gen-B3",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-B10",
+   "fromNode": "gen-L04",
+   "fromSide": "bottom",
+   "toNode": "gen-B10",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L04-gen-L05",
+   "fromNode": "gen-L04",
+   "fromSide": "right",
+   "toNode": "gen-L05",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-B3",
+   "fromNode": "gen-L05",
+   "fromSide": "bottom",
+   "toNode": "gen-B3",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-B9",
+   "fromNode": "gen-L05",
+   "fromSide": "bottom",
+   "toNode": "gen-B9",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-B2",
+   "fromNode": "gen-L05",
+   "fromSide": "bottom",
+   "toNode": "gen-B2",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-B10",
+   "fromNode": "gen-L05",
+   "fromSide": "bottom",
+   "toNode": "gen-B10",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-B1",
+   "fromNode": "gen-L05",
+   "fromSide": "bottom",
+   "toNode": "gen-B1",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-L06",
+   "fromNode": "gen-L05",
+   "fromSide": "right",
+   "toNode": "gen-L06",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-X06-0",
+   "fromNode": "gen-L06",
+   "fromSide": "top",
+   "toNode": "gen-X06-0",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-X06-1",
+   "fromNode": "gen-L06",
+   "fromSide": "top",
+   "toNode": "gen-X06-1",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-B3",
+   "fromNode": "gen-L06",
+   "fromSide": "bottom",
+   "toNode": "gen-B3",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-B9",
+   "fromNode": "gen-L06",
+   "fromSide": "bottom",
+   "toNode": "gen-B9",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-B10",
+   "fromNode": "gen-L06",
+   "fromSide": "bottom",
+   "toNode": "gen-B10",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-B6",
+   "fromNode": "gen-L06",
+   "fromSide": "bottom",
+   "toNode": "gen-B6",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-L07",
+   "fromNode": "gen-L06",
+   "fromSide": "right",
+   "toNode": "gen-L07",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L07-gen-B1",
+   "fromNode": "gen-L07",
+   "fromSide": "bottom",
+   "toNode": "gen-B1",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L07-gen-B3",
+   "fromNode": "gen-L07",
+   "fromSide": "bottom",
+   "toNode": "gen-B3",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L07-gen-B10",
+   "fromNode": "gen-L07",
+   "fromSide": "bottom",
+   "toNode": "gen-B10",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L07-gen-B6",
+   "fromNode": "gen-L07",
+   "fromSide": "bottom",
+   "toNode": "gen-B6",
    "toSide": "top",
    "label": "нужно ти е"
   }

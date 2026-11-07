@@ -147,6 +147,16 @@
    "color": "3"
   },
   {
+   "id": "gen-X01-4",
+   "type": "file",
+   "file": "Алгебра/задачи/01-05-Степен-1-плюс-i-на-2026.md",
+   "x": 1810,
+   "y": -1030,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
    "id": "gen-B2",
    "type": "file",
    "file": "Основи/Координатна равнина.md",
@@ -484,7 +494,7 @@
   {
    "id": "gen-S04",
    "type": "file",
-   "file": "Алгебра/материали/02-05.10-11.10/Algebra SE.pdf",
+   "file": "Алгебра/материали/03-12.10-18.10/L2 Alg SI 13.10.2026.pdf",
    "x": 6260,
    "y": 40,
    "width": 520,
@@ -602,7 +612,7 @@
   {
    "id": "gen-S05",
    "type": "file",
-   "file": "Алгебра/материали/02-05.10-11.10/Algebra SE.pdf",
+   "file": "Алгебра/материали/05-26.10-01.11/L4 Alg SI 27.10.2026.pdf",
    "x": 7660,
    "y": 40,
    "width": 520,
@@ -679,14 +689,92 @@
    "color": "3"
   },
   {
+   "id": "gen-X05-7",
+   "type": "file",
+   "file": "Алгебра/задачи/05-08-Детерминанта-3-ред-Лекция-3.md",
+   "x": 7410,
+   "y": -1520,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X05-8",
+   "type": "file",
+   "file": "Алгебра/задачи/05-09-Детерминанта-a-по-диагонала-b-извън.md",
+   "x": 7820,
+   "y": -1520,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
    "id": "gen-B11",
    "type": "file",
-   "file": "Основи/Факториел.md",
+   "file": "Основи/Обратна функция.md",
    "x": 7000,
    "y": 1060,
    "width": 560,
    "height": 540,
    "color": "5"
+  },
+  {
+   "id": "gen-B12",
+   "type": "file",
+   "file": "Основи/Факториел.md",
+   "x": 7620,
+   "y": 1060,
+   "width": 560,
+   "height": 540,
+   "color": "5"
+  },
+  {
+   "id": "gen-g06",
+   "type": "group",
+   "x": 8400,
+   "y": 0,
+   "width": 1200,
+   "height": 920,
+   "label": "06 Адюнгирани количества"
+  },
+  {
+   "id": "gen-L06",
+   "type": "file",
+   "file": "Алгебра/лекции/06-Адюнгирани-количества.md",
+   "x": 8420,
+   "y": 40,
+   "width": 620,
+   "height": 860,
+   "color": "4"
+  },
+  {
+   "id": "gen-S06",
+   "type": "file",
+   "file": "Алгебра/материали/05-26.10-01.11/L4 Alg SI 27.10.2026.pdf",
+   "x": 9060,
+   "y": 40,
+   "width": 520,
+   "height": 860
+  },
+  {
+   "id": "gen-X06-0",
+   "type": "file",
+   "file": "Алгебра/задачи/06-01-Поддетерминанта-Delta-34.md",
+   "x": 8400,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
+  },
+  {
+   "id": "gen-X06-1",
+   "type": "file",
+   "file": "Алгебра/задачи/06-02-Развитие-по-трети-стълб.md",
+   "x": 8810,
+   "y": -540,
+   "width": 380,
+   "height": 460,
+   "color": "3"
   },
   {
    "id": "gen-konspekt",
@@ -764,6 +852,13 @@
    "fromNode": "gen-L01",
    "fromSide": "top",
    "toNode": "gen-X01-3",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L01-gen-X01-4",
+   "fromNode": "gen-L01",
+   "fromSide": "top",
+   "toNode": "gen-X01-4",
    "toSide": "bottom"
   },
   {
@@ -998,6 +1093,14 @@
    "label": "нужно ти е"
   },
   {
+   "id": "gen-e-gen-L03-gen-B8",
+   "fromNode": "gen-L03",
+   "fromSide": "bottom",
+   "toNode": "gen-B8",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
    "id": "gen-e-gen-L03-gen-B5",
    "fromNode": "gen-L03",
    "fromSide": "bottom",
@@ -1174,10 +1277,32 @@
    "toSide": "bottom"
   },
   {
+   "id": "gen-e-gen-L05-gen-X05-7",
+   "fromNode": "gen-L05",
+   "fromSide": "top",
+   "toNode": "gen-X05-7",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-X05-8",
+   "fromNode": "gen-L05",
+   "fromSide": "top",
+   "toNode": "gen-X05-8",
+   "toSide": "bottom"
+  },
+  {
    "id": "gen-e-gen-L05-gen-B11",
    "fromNode": "gen-L05",
    "fromSide": "bottom",
    "toNode": "gen-B11",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-B12",
+   "fromNode": "gen-L05",
+   "fromSide": "bottom",
+   "toNode": "gen-B12",
    "toSide": "top",
    "label": "нужно ти е"
   },
@@ -1194,6 +1319,36 @@
    "fromNode": "gen-L05",
    "fromSide": "bottom",
    "toNode": "gen-B5",
+   "toSide": "top",
+   "label": "нужно ти е"
+  },
+  {
+   "id": "gen-e-gen-L05-gen-L06",
+   "fromNode": "gen-L05",
+   "fromSide": "right",
+   "toNode": "gen-L06",
+   "toSide": "left",
+   "label": "следва"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-X06-0",
+   "fromNode": "gen-L06",
+   "fromSide": "top",
+   "toNode": "gen-X06-0",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-X06-1",
+   "fromNode": "gen-L06",
+   "fromSide": "top",
+   "toNode": "gen-X06-1",
+   "toSide": "bottom"
+  },
+  {
+   "id": "gen-e-gen-L06-gen-B9",
+   "fromNode": "gen-L06",
+   "fromSide": "bottom",
+   "toNode": "gen-B9",
    "toSide": "top",
    "label": "нужно ти е"
   }
