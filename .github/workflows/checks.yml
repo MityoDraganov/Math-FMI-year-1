@@ -1,0 +1,18 @@
+name: Checks
+
+# Broken [[links]], missing `Източници:` files and stale boards (scripts/check.py).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: python3 scripts/check.py
